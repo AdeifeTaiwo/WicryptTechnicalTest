@@ -161,7 +161,7 @@ class JobRepoViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val dd = split[2]
         val yy = split[5]
 
-         return "$dd $mm $yy"
+         return "$dd $mm, $yy"
 
     }
 
