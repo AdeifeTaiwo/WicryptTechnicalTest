@@ -18,33 +18,22 @@ import com.example.wicrypttechnicaltest.databinding.JobSearchItemBinding
 import com.example.wicrypttechnicaltest.model.Jobs
 import kotlinx.coroutines.Job
 
-class JobSearchAdapter(private val clickListener: OnClickListener) : PagingDataAdapter<Jobs, JobSearchViewHolder>(REP0_COMPANION){
+class JobSearchAdapter : PagingDataAdapter<Jobs, JobRepoViewHolder>(REP0_COMPANION){
 
 
 
 
-    override fun onBindViewHolder(holder: JobSearchViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: JobRepoViewHolder, position: Int) {
         val jobs = getItem(position)
-
-
-        holder.binding.also {
-            it.jobs = jobs
-            it.clickListener = clickListener
+        if(jobs != null) {
+            holder.bind(jobs)
         }
-        holder.binding.favouriteImageView.buttonDrawable= holder.itemView.context.resources.getDrawable(R.drawable.toggle_fav_button)
-        holder.binding.favouriteImageView.setOnClickListener(View.OnClickListener {
 
-        })
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobSearchViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobRepoViewHolder {
 
-        val withDataBinding: JobSearchItemBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                JobSearchViewHolder.LAYOUT,
-                parent,
-                false)
-        return JobSearchViewHolder(withDataBinding)
+        return JobRepoViewHolder.create(parent)
 
     }
 
@@ -61,16 +50,4 @@ class JobSearchAdapter(private val clickListener: OnClickListener) : PagingDataA
 
 }
 
-class JobSearchViewHolder(val binding: JobSearchItemBinding) :
-        RecyclerView.ViewHolder(binding.root){
 
-    companion object{
-        @LayoutRes
-        val LAYOUT = R.layout.job_search_item
-    }
-
-}
-
-class OnClickListener(val clickListener: (jobSearch : Jobs) -> Unit) {
-    fun onClick(jobClick :Jobs) = clickListener(jobClick)
-}

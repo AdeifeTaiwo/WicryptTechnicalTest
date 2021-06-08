@@ -42,9 +42,7 @@ class JobSearchFragment : Fragment() {
     ): View? {
         setHasOptionsMenu(true)
 
-        adapter = JobSearchAdapter(OnClickListener {
-            viewModel.onToggleButtonClicked(it)
-        })
+        adapter = JobSearchAdapter()
 
         viewModel = ViewModelProvider(this, Injection.provideViewModelFactory(requireContext()))
                 .get(JobSearchViewModel::class.java)

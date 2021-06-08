@@ -43,5 +43,9 @@ class JobSearchViewModel(private val repository: JobSearchRepository): ViewModel
         _toggleButtonClicked.value = null
     }
 
+    sealed class UiModel {
+        data class RepoItem(val repo: Jobs) : UiModel()
+        data class SeparatorItem(val description: String) : UiModel()
+    }
 
 }

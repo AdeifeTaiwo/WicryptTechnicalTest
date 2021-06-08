@@ -26,9 +26,7 @@ class SavedJobSearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        adapter = JobSearchAdapter(OnClickListener {
-
-        })
+        adapter = JobSearchAdapter()
 
         viewModel = ViewModelProvider(this, Injection.provideViewModelFactory2(requireContext()))
                 .get(SavedJobSearchViewModel::class.java)

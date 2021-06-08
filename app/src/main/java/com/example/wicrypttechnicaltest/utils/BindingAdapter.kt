@@ -19,7 +19,8 @@ import java.lang.StringBuilder
 
 @BindingAdapter("trimmedText")
 fun TextView.trimmedText(jobTitle: String){
-    var stringBuilder : String
+
+
     val split = jobTitle.split(" ", "-")
 
 

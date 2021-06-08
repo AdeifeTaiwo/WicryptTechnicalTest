@@ -28,6 +28,10 @@ data class Jobs(
         @field:SerializedName("description") val description: String?,
         @field:SerializedName("company_logo") val company_logo:String?,
         @field:SerializedName("how_to_apply") val how_to_apply: String,
-        var isChecked: Int =0
-)
+        var isChecked: Int =0,
+        var applied: Int =0
+){
+
+
+}
 
