@@ -54,6 +54,8 @@ class JobSearchFragment : Fragment() {
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.recyclerView.addItemDecoration(decoration)
         binding.recyclerView.adapter = adapter
+
+
         search("code")
 
 
@@ -108,14 +110,6 @@ class JobSearchFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-
-
-    private fun initSearch(query: String) {
-
-
-        // Scroll to top when the list is refreshed from network.
-
-    }
 
 
 

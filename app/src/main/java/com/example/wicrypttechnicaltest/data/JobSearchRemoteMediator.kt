@@ -24,42 +24,42 @@ class JobSearchRemoteMediator(
 ) : RemoteMediator<Int, Jobs>() {
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Jobs>): MediatorResult {
 
-        val page = when(loadType){
+        val page = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
                 remoteKeys?.nextKey?.minus(1) ?: GITHUB_STARTING_PAGE_INDEX
             }
             LoadType.PREPEND -> {
-                val remoteKeys  = getRemoteKeyForFirstItem(state)
+                val remoteKeys = getRemoteKeyForFirstItem(state)
                 val prevKeys = remoteKeys?.prevKey
-                if(prevKeys == null){
-                    return  MediatorResult.Success(endOfPaginationReached = remoteKeys!=null)
+                if (prevKeys == null) {
+                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
                 }
                 prevKeys
             }
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
                 val nextKey = remoteKeys?.nextKey
-                if(nextKey == null){
-                    return MediatorResult.Success(endOfPaginationReached = remoteKeys!=null)
+                if (nextKey == null) {
+                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
                 }
                 nextKey
             }
         }
         val apiQuery = query
         try {
-            val apiResponse = service.jobSearchRepos(page, apiQuery )
+            val apiResponse = service.jobSearchRepos(page, apiQuery)
             val repos = apiResponse
             val endOfPagination = repos.isEmpty()
 
             repoDatabase.withTransaction {
 
-                if(loadType == LoadType.REFRESH){
-                    repoDatabase.remoteKeysDao().clearRemoteKeys()
-                    repoDatabase.reposDao().clearRepos()
+                if (loadType == LoadType.REFRESH) {
+                    //repoDatabase.remoteKeysDao().clearRemoteKeys()
+                    //repoDatabase.reposDao().clearRepos()
                 }
-                val prevKey = if(page == GITHUB_STARTING_PAGE_INDEX) null else page - 1
-                val nextKey = if(endOfPagination) null else page +  1
+                val prevKey = if (page == GITHUB_STARTING_PAGE_INDEX) null else page - 1
+                val nextKey = if (endOfPagination) null else page + 1
                 val keys = repos.map {
                     RemoteKeys(
                             repoId = it.id,
@@ -71,11 +71,9 @@ class JobSearchRemoteMediator(
                 repoDatabase.reposDao().insertAll(repos)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPagination)
-        }
-        catch (exception: IOException){
+        } catch (exception: IOException) {
             return MediatorResult.Error(exception)
-        }
-        catch (exception: HttpException){
+        } catch (exception: HttpException) {
             return MediatorResult.Error(exception)
         }
     }
