@@ -1,5 +1,6 @@
 package com.example.wicrypttechnicaltest.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -35,7 +36,6 @@ class JobRepoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     init {
         favourite.setOnClickListener {
             if (favourite.isChecked) {
-
                 CoroutineScope(Dispatchers.IO).launch {
                     repo?.id?.let { it1 -> update(itemView.context, it1, 1) }
                 }
@@ -43,7 +43,6 @@ class JobRepoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             }
 
             if (!favourite.isChecked) {
-
                 CoroutineScope(Dispatchers.IO).launch {
                     repo?.id?.let { it1 -> update(itemView.context, it1, 0) }
                 }
@@ -80,6 +79,7 @@ class JobRepoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun showRepoData(repo: Jobs) {
         this.repo = repo
         job_title.text = trimmedText(repo.job_title.toString())

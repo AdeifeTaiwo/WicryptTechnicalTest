@@ -42,7 +42,7 @@ class JobSearchRepository (
     }
 
     companion object {
-        const val NETWORK_PAGE_SIZE = 20
+        const val NETWORK_PAGE_SIZE = 50
     }
     fun getSavedSearch() : Flow<PagingData<Jobs>>{
         val pagingSourceFactory = { database.reposDao().reposByCheckFavourite() }
